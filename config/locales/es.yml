@@ -1,0 +1,9 @@
+# English strings go here for Rails i18n
+en:
+  category_watchers: "Seguidores de Categorías"
+  watchers_saved: "Seguidores guardados"
+  label_default_watchers: "Seguidores por defecto para las Categorías del Proyecto" 
+  label_watchers: "Usuarios"
+  label_multiselection_allowed: "Use la tecla de CTRL para seleccionar o deseleccionar más de un usuario"
+  label_current_watchers: "Seguidores Actuales"
+  label_category: "Categoría"

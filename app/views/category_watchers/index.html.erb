@@ -1,0 +1,63 @@
+<h2><%= l(:label_default_watchers) %></h2>
+
+<% if @category_watchers_array.nil? || @category_watchers_array.empty? %>
+  <p>No existen Categorías</p>
+<% else %>
+  <%= form_tag(action: 'add') do %>
+    <%= hidden_field_tag :project, @project.identifier %>
+
+    <p style="padding: 12px; background-color: #f0f8ff; border-left: 5px solid #2196F3; 
+             font-size: 12px; color: #333; font-weight: bold; border-radius: 4px; 
+             margin: 10px 0; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+      <%= l(:label_multiselection_allowed) %>
+    </p>
+
+
+    <table style="width:100%; border: 1px solid #ddd; border-collapse: collapse;">
+	  <thead>
+    <tr style="background-color: #333; color: white; font-weight: bold; border-bottom: 2px solid #555; font-size: 14px;">
+      <th style="padding: 6px; text-align: center; width: 20%;"> <%= l(:label_category) %> </th>
+      <th style="padding: 6px; text-align: center; width: 40%;"> <%= l(:label_watchers) %> </th>
+      <th style="padding: 6px; text-align: center; width: 40%;"> <%= l(:label_current_watchers) %> </th>
+    </tr>
+  </thead>
+  <tbody>
+      <% @category_watchers_array.each do |c| %>
+        <tr>
+          <td style="padding: 8px; text-align: center; vertical-align: middle; font-size: 14px; color: #333; font-weight: bold;">
+            <%= hidden_field_tag 'watchers_' + c[:category].id.to_s + '[]', nil %>
+            <%= c[:category].name %>
+          </td>
+
+		  <td style="padding: 4px; text-align: center; vertical-align: middle;">
+          <%= select_tag 'watchers_' + c[:category].id.to_s,
+                options_from_collection_for_select(@users, 'id', 'name', c[:category_watcher].selected_users.map { |w| w[:id] }),
+                multiple: true,
+                style: "height: 150px; width: 300px; text-align: center; text-align-last: center; 
+                        border: 1px solid #ccc; background-color: #f8f8f8; padding: 6px; 
+                        border-radius: 5px; font-size: 14px;" %>
+          </td>
+
+          <td style="padding: 4px; text-align: center; vertical-align: middle;">
+			<div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="height: 150px; width: 300px; overflow-y: auto; text-align: center; 
+                       border: 1px solid #ccc; background-color: #f8f8f8; padding: 6px; 
+                       border-radius: 5px; font-size: 14px; line-height: 1.5; white-space: normal;">
+              <%= textilizable(c[:category_watcher].selected_users.map { |w| "<div>" + w[:name] + "</div>" }.join) %>
+            </div>
+			</div>
+          </td>
+		  
+        </tr>
+        <tr>
+          <td colspan="3">
+            <hr>
+          </td>
+        </tr>
+      <% end %>
+	    </tbody>
+    </table>
+
+    <%= submit_tag l(:button_save) %>
+  <% end %>
+<% end %>
