@@ -15,10 +15,11 @@ module RedmineCategoryWatchers
       if issue.category_id_changed? && !issue.category_id_was.nil?
         # Eliminar watchers de la categoría anterior
         remove_watchers_from_old_category(issue)
+
+         # Agregar watchers de la nueva categoría si ha cambiado
+        auto_watch(issue) unless issue.category_id.nil?
       end
-      
-      # Agregar watchers de la nueva categoría (si ha cambiado o no)
-      auto_watch(issue) unless issue.category_id.nil?
+          
     end
     
     private
